@@ -1,0 +1,16 @@
+{{define "index"}}
+  {{ $path := .Docs }}
+  {{template "header" . }}
+    <p>
+      Vinci is a hackable, idiomatic and middleware-oriented web proxy toolkit written in Go designed to create
+      extensible and versatile proxy layers for any purpose.
+    </p>
+    <p>
+      Still beta.
+    </p>
+    {{range .Pages}}
+      <h1 id="{{.Name | slug}}">{{.Name}}</h1>
+      {{printf "%s/%s" $path .File | readfile | markdown | noescape}}
+    {{end}}
+  {{template "footer"}}
+{{end}}
