@@ -8,7 +8,7 @@ Site originally based on [apex/web](https://github.com/apex/web)
 
 ## Building
 
-Make sure your apex/apex repo is up to date, as this is where the documentation comes from. Then run the following to update index.html:
+Run the following to update index.html:
 
 ```bash
 $ make
