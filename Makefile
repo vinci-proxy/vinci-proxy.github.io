@@ -8,6 +8,7 @@ index.html: $(SRC)
 commit: index.html
 	git commit -a -m "Build docs for $(shell go run ../vinci/cmd/apex/main.go version)"
 	git push
+
 .PHONY: commit
 
 clean:

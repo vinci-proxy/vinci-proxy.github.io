@@ -59,6 +59,8 @@ type page struct {
 
 var pages = []page{
 	{"Introduction", "introduction.md"},
+	{"Installation", "Installation.md"},
+	{"API", "API.md"},
 }
 
 func main() {
