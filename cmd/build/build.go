@@ -70,7 +70,7 @@ func main() {
 		Docs  string
 		Pages []page
 	}{
-		Docs:  filepath.Join("../vinci/docs"),
+		Docs:  filepath.Join("../vinxi/docs"),
 		Pages: pages,
 	}
 
