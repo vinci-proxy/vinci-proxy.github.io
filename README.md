@@ -1,8 +1,8 @@
 # web
 
-vinci project's website. 
+vinxi project's website. 
 
-If you'd like to contribute or fix typos, please edit the [markdown docs](https://github.com/vinci-toolkit/vinci/tree/master/docs), the contents of this repo are generated from these.
+If you'd like to contribute or fix typos, please edit the [markdown docs](https://github.com/vinxi-toolkit/vinxi/tree/master/docs), the contents of this repo are generated from these.
 
 Site originally based on [apex/web](https://github.com/apex/web)
 

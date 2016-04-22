@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <title>vinxi – hackable web proxy toolkit for Go</title>
-    <meta name="keywords" content="vinci, proxy, toolkit, gorilla, http, http2, https, golang, go">
+    <meta name="keywords" content="vinxi, proxy, toolkit, gorilla, http, http2, https, golang, go">
     <meta name="description" content="Hackable web proxy toolkit for Go">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,11 +30,19 @@
         <i class="material-icons">menu</i>
         <ul id="menu-items">
           
-            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#features">Features</a></li>
           
             <li><a href="#installation">Installation</a></li>
           
+            <li><a href="#components">Components</a></li>
+          
+            <li><a href="#example">Example</a></li>
+          
             <li><a href="#api">API</a></li>
+          
+            <li><a href="#authors">Authors</a></li>
+          
+            <li><a href="#license">License</a></li>
           
           <li><a href="https://github.com/vinxi/vinxi/tree/master/_examples">Examples</a></li>
           <li><a href="https://github.com/vinxi/vinxi">GitHub</a></li>
@@ -47,24 +55,191 @@
     <section id="content">
 
     <p>
-      vinxi is a hackable, idiomatic and middleware-oriented web proxy toolkit written in Go designed to build
-      extensible and versatile network proxy layers for a variery of purposes.
+      vinxi is a hackable, modular, middleware-oriented toolkit written in Go designed to easily build extensible and versatile web proxy servers.
     </p>
     <p>
       <b>Still beta under active development.</b>
     </p>
     
-      <h1 id="introduction">Introduction</h1>
-      
+      <h1 id="features">Features</h1>
+      <ul>
+<li>Strong modularity via hirarchical middleware layer.</li>
+<li>Multiple middleware interfaces supported (e.g: http.Handler, Negroni, Alice&hellip;)</li>
+<li>Built-in multiplexer for easy composition.</li>
+<li>Idiomatic built on top of <code>net/http</code> package.</li>
+<li>Default HTTP/S and WebSocket traffic forward.</li>
+<li>Built-in middleware components (e.g: logging, metrics, service discovery, balancer&hellip;).</li>
+<li>Tiny, hackable core.</li>
+<li>Completely written in Go. No third-party dependencies.</li>
+</ul>
+
+<h2 id="upcoming-features">Upcoming features</h2>
+
+<ul>
+<li>Admin HTTP API with dynamic configuration</li>
+<li>Admin web UI</li>
+<li>CLI interface</li>
+<li>Dynamic configuration from multiple backends.</li>
+<li>Full-featured sandbox proxy.</li>
+<li>Plugin ecosystem.</li>
+</ul>
+
     
       <h1 id="installation">Installation</h1>
-      <pre><code class="language-bash">go get -u gopkg.in/vinci-proxy/vinci.v0
+      <p>Fetch the latest development version:</p>
+
+<pre><code class="language-bash">go get -u gopkg.in/vinxi/vinxi.v0
+</code></pre>
+
+    
+      <h1 id="components">Components</h1>
+      <ul>
+<li><a href="https://github.com/vinxi/mux">mux</a> - Simple, versatile and composable multiplexer for vinxi.</li>
+<li><a href="https://github.com/vinxi/context">context</a> - Unobstructive context implementation for request-aware data sharing.</li>
+<li><a href="https://github.com/vinxi/intercept">intercept</a> - HTTP traffic interceptor and modifier made easy.</li>
+<li><a href="https://github.com/vinxi/balancer">balancer</a> - Simple traffic balancer supporting simple well-known distribution algorithms.</li>
+<li><a href="https://github.com/vinxi/replay">replay</a> - Replay HTTP traffic to multiple servers.</li>
+<li><a href="https://github.com/vinxi/router">router</a> - Featured, composable and fast router with hierarchical middleware layer.</li>
+<li><a href="https://github.com/vinxi/forward">forward</a> - Default HTTP and WebSocket traffic forwarder.</li>
+<li><a href="https://github.com/vinxi/layer">layer</a> - Default middleware layer used in vinxi ecosystem.</li>
+<li><a href="https://github.com/vinxi/apachelog">apachelog</a> - Apache-style logging middleware.</li>
+<li><a href="https://github.com/vinxi/consul">consul</a> - Consul service discovery provider with optional traffic balancing.</li>
+<li><a href="https://github.com/vinxi/auth">auth</a> - HTTP authentication middleware supporting multiple schemes.</li>
+<li><a href="https://github.com/vinxi/ratelimit">ratelimit</a> - Efficient token bucket rate limiter for your proxies.</li>
+<li><a href="https://github.com/vinxi/log">log</a> - Structured, versatile, scoped logging layer.</li>
+<li><a href="https://github.com/vinxi/trace">trace</a> - Structured and versatile traffic tracing instrumentation.</li>
+<li><a href="https://github.com/vinxi/cors">cors</a> - W3C standard compliant full-featured CORS support.</li>
+<li><a href="https://github.com/vinxi/metrics">metrics</a> - Extensible metrics instrumentation and reporting.</li>
+<li><a href="https://github.com/vinxi/ip">ip</a> - IP CIDR range based filtering and multiplexer for your proxies.</li>
+</ul>
+
+    
+      <h1 id="example">Example</h1>
+      <h4 id="simple-forward-proxy">Simple forward proxy</h4>
+
+<p>Forwards all the traffic to a specific host.</p>
+
+<pre><code class="language-go">package main
+
+import (
+  &quot;fmt&quot;
+  &quot;gopkg.in/vinxi/vinxi.v0&quot;
+)
+
+func main() {
+  vs := vinxi.NewServer(vinxi.ServerOptions{Port: 3100})
+
+  // Forward all the traffic to httpbin.org
+  vs.Forward(&quot;http://httpbin.org&quot;)
+
+  fmt.Printf(&quot;Server listening on port: %d\n&quot;, 3100)
+  err := vs.Listen()
+  if err != nil {
+    fmt.Errorf(&quot;Error: %s\n&quot;, err)
+  }
+}
+</code></pre>
+
+<h4 id="multiplexer-composition">Multiplexer composition</h4>
+
+<p>Uses the built-in multiplexer for traffic handling composition.</p>
+
+<pre><code class="language-go">package main
+
+import (
+  &quot;fmt&quot;
+  &quot;net/http&quot;
+
+  &quot;gopkg.in/vinxi/forward.v0&quot;
+  &quot;gopkg.in/vinxi/mux.v0&quot;
+  &quot;gopkg.in/vinxi/router.v0&quot;
+  &quot;gopkg.in/vinxi/vinxi.v0&quot;
+)
+
+func main() {
+  fmt.Printf(&quot;Server listening on port: %d\n&quot;, 3100)
+  vs := vinxi.NewServer(vinxi.ServerOptions{Host: &quot;localhost&quot;, Port: 3100})
+
+  m := mux.New()
+  m.If(mux.MatchHost(&quot;localhost:3100&quot;))
+
+  m.Use(func(w http.ResponseWriter, r *http.Request, h http.Handler) {
+    w.Header().Set(&quot;Server&quot;, &quot;vinxi&quot;)
+    h.ServeHTTP(w, r)
+  })
+
+  m.Use(router.NewRoute(&quot;/foo&quot;).Handler(func(w http.ResponseWriter, req *http.Request) {
+    w.Write([]byte(&quot;foo bar&quot;))
+  }))
+
+  m.Use(forward.To(&quot;http://127.0.0.1:8080&quot;))
+
+  vs.Vinci.Use(m)
+  vs.Vinci.Forward(&quot;http://127.0.0.1&quot;)
+
+  err := vs.Listen()
+  if err != nil {
+    fmt.Errorf(&quot;Error: %s\n&quot;, err)
+  }
+}
+</code></pre>
+
+<h4 id="simple-traffic-routing">Simple traffic routing</h4>
+
+<p>Uses the built-in router for handle and forward traffic.</p>
+
+<pre><code class="language-go">package main
+
+import (
+  &quot;fmt&quot;
+  &quot;net/http&quot;
+  &quot;gopkg.in/vinxi/vinxi.v0&quot;
+)
+
+func main() {
+  vs := vinxi.NewServer(vinxi.ServerOptions{Host: &quot;localhost&quot;, Port: 3100})
+  v := vs.Vinxi
+
+  v.Use(func(w http.ResponseWriter, r *http.Request, h http.Handler) {
+    w.Header().Set(&quot;Server&quot;, &quot;vinxi&quot;)
+    h.ServeHTTP(w, r)
+  })
+
+  v.UsePhase(&quot;error&quot;, func(w http.ResponseWriter, r *http.Request, h http.Handler) {
+    w.Header().Set(&quot;Server&quot;, &quot;vinxi&quot;)
+    w.WriteHeader(500)
+    w.Write([]byte(&quot;server error&quot;))
+  })
+
+  v.Get(&quot;/ip&quot;).Forward(&quot;http://httpbin.org&quot;)
+  v.Get(&quot;/headers&quot;).Forward(&quot;http://httpbin.org&quot;)
+  v.Get(&quot;/image/:name&quot;).Forward(&quot;http://httpbin.org&quot;)
+  v.All(&quot;/post&quot;).Forward(&quot;http://httpbin.org&quot;)
+
+  v.Forward(&quot;http://example.com&quot;)
+
+  fmt.Printf(&quot;Server listening on port: %d\n&quot;, 3100)
+  err := vs.Listen()
+  if err != nil {
+    fmt.Errorf(&quot;Error: %s\n&quot;, err)
+  }
+}
 </code></pre>
 
     
       <h1 id="api">API</h1>
-      <p>See <a href="https://godoc.org/github.com/vinci-proxy/vinci">godoc</a> to browse the self-documented API.</p>
+      <p>See <a href="https://godoc.org/github.com/vinxi/vinxi">godoc</a> to browse the self-documented API.</p>
 
+    
+      <h1 id="authors">Authors</h1>
+      <ul>
+<li><a href="https://github.com/h2non">Tomas Aparicio</a></li>
+<li><a href="https://github.com/groyoh">Yohan Robert</a></li>
+</ul>
+
+    
+      <h1 id="license">License</h1>
+      
     
   
     </section>
