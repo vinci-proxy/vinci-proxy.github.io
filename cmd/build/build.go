@@ -61,7 +61,7 @@ var pages = []page{
 	{"Features", "Features.md"},
 	{"Installation", "Installation.md"},
 	{"Components", "Components.md"},
-	{"Example", "Examples.md"},
+	{"Examples", "Examples.md"},
 	{"API", "API.md"},
 	{"Authors", "Authors.md"},
 	{"License", "License.md"},
