@@ -38,6 +38,8 @@
           
             <li><a href="#examples">Examples</a></li>
           
+            <li><a href="#cli">CLI</a></li>
+          
             <li><a href="#api">API</a></li>
           
             <li><a href="#manager">Manager</a></li>
@@ -237,6 +239,37 @@ func main() {
 </code></pre>
 
     
+      <h1 id="cli">CLI</h1>
+      <p>vinxi provides a full-feateured command-line interface with a declarative configuration file capable of detailed configuration of one or multiple proxy servers.</p>
+
+<p><strong>Note</strong>: still a work in progress.</p>
+
+<h4 id="installation">Installation</h4>
+
+<pre><code class="language-bash">go get -u gopkg.in/vinxi/vinxictl.v0
+</code></pre>
+
+<h4 id="usage">Usage</h4>
+
+<pre><code class="language-bash">vinxictl 0.1.0
+
+Usage:
+  vinxictl -p 80
+  vinxictl -p 80 -c config.toml
+
+Options:
+  -a &lt;addr&gt;                 bind address [default: *]
+  -p &lt;port&gt;                 bind port [default: 8080]
+  -h, -help                 output help
+  -v, -version              output version
+  -c, -config               Config file path
+  -f                        Target server URL to forward traffic by default
+  -mrelease &lt;num&gt;           OS memory release inverval in seconds [default: 30]
+  -cpus &lt;num&gt;               Number of used cpu cores.
+                            (default for current machine is 8 cores)
+</code></pre>
+
+    
       <h1 id="api">API</h1>
       <p>See <a href="https://godoc.org/github.com/vinxi/vinxi">godoc</a> to browse the self-documented API.</p>
 
@@ -278,7 +311,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 
 <h3 id="security">Security</h3>
 
-<p>RESTful API admin interface</p>
+<p>RESTful API admin interface can be easily configured</p>
 
     
       <h1 id="authors">Authors</h1>

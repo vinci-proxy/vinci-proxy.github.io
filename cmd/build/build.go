@@ -62,6 +62,7 @@ var pages = []page{
 	{"Installation", "Installation.md"},
 	{"Components", "Components.md"},
 	{"Examples", "Examples.md"},
+	{"CLI", "CLI.md"},
 	{"API", "API.md"},
 	{"Manager", "Manager.md"},
 	{"Admin API", "Admin_API.md"},
