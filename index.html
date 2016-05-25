@@ -40,6 +40,12 @@
           
             <li><a href="#api">API</a></li>
           
+            <li><a href="#manager">Manager</a></li>
+          
+            <li><a href="#admin-api">Admin API</a></li>
+          
+            <li><a href="#admin-http-api">Admin HTTP API</a></li>
+          
             <li><a href="#authors">Authors</a></li>
           
             <li><a href="#license">License</a></li>
@@ -83,11 +89,10 @@
 <h2 id="upcoming-features">Upcoming features</h2>
 
 <ul>
-<li>Admin HTTP API with dynamic configuration</li>
+<li>Admin HTTP API supporting dynamic configuration</li>
 <li>Admin web UI</li>
 <li>CLI interface</li>
 <li>Dynamic configuration from multiple backends.</li>
-<li>Full-featured sandbox proxy.</li>
 <li>Plugin ecosystem.</li>
 </ul>
 
@@ -234,6 +239,46 @@ func main() {
     
       <h1 id="api">API</h1>
       <p>See <a href="https://godoc.org/github.com/vinxi/vinxi">godoc</a> to browse the self-documented API.</p>
+
+    
+      <h1 id="manager">Manager</h1>
+      <p>vinxi provides the <a href="https://github.com/vinxi/vinxi/tree/master/manager">manager</a> package who has been designed to provide a both programmatic and HTTP API interfaces to manage one or multiple <code>vinxi</code> server instances.</p>
+
+<p>For more details, see the specific manager documentation:</p>
+
+<ul>
+<li><a href="#admin-api">Programmatic API</a></li>
+<li><a href="#admin-http-api">RESTful API</a></li>
+</ul>
+
+    
+      <h1 id="admin-api">Admin API</h1>
+      <p>vinxi provides a full-featured programmatic API to easily manage <code>vinxi</code> server instance via the <code>manager</code> package.</p>
+
+<p>Manager programmatic API documentation is available via <a href="https://godoc.org/github.com/vinxi/vinxi/manager">godoc</a>.</p>
+
+    
+      <h1 id="admin-http-api">Admin HTTP API</h1>
+      <p>vinxi comes with an internal RESTful API for administration purposes.
+API commands can be run on any node, and vinxi will keep the configuration consistent and up-to-date in real time across the different vinxi server instances.</p>
+
+<p>The RESTful Admin API server listens on port 8000 by default.</p>
+
+<p>RESTful Admin API is part of [manager]() package. Read more about the manager <a href="#manager">here</a>.</p>
+
+<h3 id="content-types">Content Types</h3>
+
+<p>vinxi RESTful API is a JSON only HTTP interface.
+Responses and payloads as designed to render and read JSON only data structures.</p>
+
+<p>The MIME content type used as HTTP <code>Content-Type</code> header must be:</p>
+
+<pre><code>application/json
+</code></pre>
+
+<h3 id="security">Security</h3>
+
+<p>RESTful API admin interface</p>
 
     
       <h1 id="authors">Authors</h1>

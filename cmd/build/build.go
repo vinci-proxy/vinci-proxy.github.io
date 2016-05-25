@@ -63,6 +63,9 @@ var pages = []page{
 	{"Components", "Components.md"},
 	{"Examples", "Examples.md"},
 	{"API", "API.md"},
+	{"Manager", "Manager.md"},
+	{"Admin API", "Admin_API.md"},
+	{"Admin HTTP API", "Admin_HTTP_API.md"},
 	{"Authors", "Authors.md"},
 	{"License", "License.md"},
 }
