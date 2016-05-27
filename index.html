@@ -297,9 +297,9 @@ API commands can be run on any node, and vinxi will keep the configuration consi
 
 <p>The RESTful Admin API server listens on port 8000 by default.</p>
 
-<p>RESTful Admin API is part of [manager]() package. Read more about the manager <a href="#manager">here</a>.</p>
+<p>RESTful Admin API is part of <a href="https://github.com/vinxi/vinxi/tree/master/manager">manager</a> package. Read more about the manager <a href="#manager">here</a>.</p>
 
-<h3 id="content-types">Content Types</h3>
+<h2 id="content-types">Content Types</h2>
 
 <p>vinxi RESTful API is a JSON only HTTP interface.
 Responses and payloads as designed to render and read JSON only data structures.</p>
@@ -309,9 +309,262 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>application/json
 </code></pre>
 
-<h3 id="security">Security</h3>
+<h2 id="authentication">Authentication</h2>
 
-<p>RESTful API admin interface can be easily configured</p>
+<p>You can protect the admin HTTP API with a basic authentication mechanism.</p>
+
+<p>Admin HTTP API is not protected by default.</p>
+
+<h3 id="http-basic-authentication">HTTP basic authentication</h3>
+
+<p>You can define multiple user/password credentials to authenticate users.</p>
+
+<h2 id="endpoints">Endpoints</h2>
+
+<h3 id="node-information">Node information</h3>
+
+<pre><code>GET /
+</code></pre>
+
+<h4 id="response">Response</h4>
+
+<pre><code>HTTP 200 OK
+</code></pre>
+
+<pre><code class="language-json">{
+  &quot;hostname&quot;: &quot;vinxi-server&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;runtime&quot;: &quot;go1.6&quot;,
+  &quot;platform&quot;: &quot;darwin&quot;,
+  &quot;cpus&quot;: 8,
+  &quot;gorutines&quot;: 13,
+  &quot;links&quot;: {
+    &quot;catalog&quot;: &quot;/catalog&quot;,
+    &quot;instances&quot;: &quot;/instances&quot;,
+    &quot;manager&quot;: &quot;/manager&quot;,
+    &quot;plugins&quot;: &quot;/plugins&quot;,
+    &quot;scopes&quot;: &quot;/scopes&quot;
+  }
+}
+</code></pre>
+
+<h3 id="global-plugins">Global plugins</h3>
+
+<h4 id="list-plugins">List plugins</h4>
+
+<pre><code>GET /plugins
+</code></pre>
+
+<h5 id="response-1">Response</h5>
+
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
+    &quot;name&quot;: &quot;auth&quot;,
+    &quot;description&quot;: &quot;Authorization and authentication protection&quot;,
+    &quot;config&quot;: {
+      &quot;scheme&quot;: &quot;Bearer&quot;,
+      &quot;token&quot;: &quot;s3cr3t&quot;
+    }
+  }
+]
+</code></pre>
+
+<h4 id="list-plugins-1">List plugins</h4>
+
+<pre><code>GET /plugins
+</code></pre>
+
+<h5 id="response-2">Response</h5>
+
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
+    &quot;name&quot;: &quot;auth&quot;,
+    &quot;description&quot;: &quot;Authorization and authentication protection&quot;,
+    &quot;config&quot;: {
+      &quot;scheme&quot;: &quot;Bearer&quot;,
+      &quot;token&quot;: &quot;s3cr3t&quot;
+    }
+  }
+]
+</code></pre>
+
+<h4 id="register-plugin">Register plugin</h4>
+
+<pre><code>GET /plugins/{id}
+</code></pre>
+
+<h5 id="request-body">Request Body</h5>
+
+<pre><code class="language-json">{
+  &quot;name&quot;:&quot;auth&quot;, 
+  &quot;config&quot;: {
+    &quot;token&quot;: &quot;s3cr3t&quot;
+  }
+}
+</code></pre>
+
+<h5 id="response-3">Response</h5>
+
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
+  &quot;name&quot;: &quot;auth&quot;,
+  &quot;description&quot;: &quot;Authorization and authentication protection&quot;,
+  &quot;config&quot;: {
+    &quot;scheme&quot;: &quot;Bearer&quot;,
+    &quot;token&quot;: &quot;s3cr3t&quot;
+  }
+}
+</code></pre>
+
+<h4 id="get-plugin">Get plugin</h4>
+
+<pre><code>GET /plugins/{id}
+</code></pre>
+
+<h5 id="response-4">Response</h5>
+
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
+  &quot;name&quot;: &quot;auth&quot;,
+  &quot;description&quot;: &quot;Authorization and authentication protection&quot;,
+  &quot;config&quot;: {
+    &quot;scheme&quot;: &quot;Bearer&quot;,
+    &quot;token&quot;: &quot;s3cr3t&quot;
+  }
+}
+</code></pre>
+
+<h4 id="delete-plugin">Delete plugin</h4>
+
+<pre><code>DELETE /plugins/{id}
+</code></pre>
+
+<h4 id="response-5">Response</h4>
+
+<pre><code>HTTP 204 No Content
+</code></pre>
+
+<h3 id="instances">Instances</h3>
+
+<h4 id="list-instances">List instances</h4>
+
+<pre><code>GET /instances
+</code></pre>
+
+<h4 id="response-6">Response</h4>
+
+<pre><code>HTTP 200 OK
+</code></pre>
+
+<pre><code class="language-json">[
+  {
+    &quot;info&quot;: {
+      &quot;id&quot;: &quot;KamlJHrvH2owdzIG&quot;,
+      &quot;name&quot;: &quot;default&quot;,
+      &quot;description&quot;: &quot;This a default proxy&quot;,
+      &quot;hostname&quot;: &quot;vinxi-server&quot;,
+      &quot;platform&quot;: &quot;darwin&quot;,
+      &quot;server&quot;: {
+        &quot;port&quot;: 3100,
+        &quot;readTimeout&quot;: 0,
+        &quot;writeTimeout&quot;: 0,
+        &quot;address&quot;: &quot;&quot;
+      }
+    },
+    &quot;scopes&quot;: [
+      {
+        &quot;id&quot;: &quot;jd7CDZ48IsQ0RJqu&quot;,
+        &quot;name&quot;: &quot;custom&quot;,
+        &quot;rules&quot;: [
+          {
+            &quot;id&quot;: &quot;MizprxflGgjeQe06&quot;,
+            &quot;name&quot;: &quot;path&quot;,
+            &quot;description&quot;: &quot;Matches HTTP request URL path againts a given path pattern&quot;,
+            &quot;config&quot;: {
+              &quot;path&quot;: &quot;\/foo\/(.*)&quot;
+            }
+          }
+        ],
+        &quot;plugins&quot;: [
+          {
+            &quot;id&quot;: &quot;AsgTHxwUgUcg9oet&quot;,
+            &quot;name&quot;: &quot;forward&quot;,
+            &quot;description&quot;: &quot;Forward HTTP traffic to remote servers&quot;,
+            &quot;config&quot;: {
+              &quot;url&quot;: &quot;http:\/\/httpbin.org&quot;
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+</code></pre>
+
+<h4 id="get-instance">Get instance</h4>
+
+<pre><code>GET /instances/{id}
+</code></pre>
+
+<h4 id="response-7">Response</h4>
+
+<pre><code>HTTP 200 OK
+</code></pre>
+
+<pre><code class="language-json">{
+  &quot;info&quot;: {
+    &quot;id&quot;: &quot;KamlJHrvH2owdzIG&quot;,
+    &quot;name&quot;: &quot;default&quot;,
+    &quot;description&quot;: &quot;This a default proxy&quot;,
+    &quot;hostname&quot;: &quot;test&quot;,
+    &quot;platform&quot;: &quot;darwin&quot;,
+    &quot;server&quot;: {
+      &quot;port&quot;: 3100,
+      &quot;readTimeout&quot;: 0,
+      &quot;writeTimeout&quot;: 0,
+      &quot;address&quot;: &quot;&quot;
+    }
+  },
+  &quot;scopes&quot;: [
+    {
+      &quot;id&quot;: &quot;jd7CDZ48IsQ0RJqu&quot;,
+      &quot;name&quot;: &quot;custom&quot;,
+      &quot;rules&quot;: [
+        {
+          &quot;id&quot;: &quot;MizprxflGgjeQe06&quot;,
+          &quot;name&quot;: &quot;path&quot;,
+          &quot;description&quot;: &quot;Matches HTTP request URL path againts a given path pattern&quot;,
+          &quot;config&quot;: {
+            &quot;path&quot;: &quot;\/foo\/(.*)&quot;
+          }
+        }
+      ],
+      &quot;plugins&quot;: [
+        {
+          &quot;id&quot;: &quot;AsgTHxwUgUcg9oet&quot;,
+          &quot;name&quot;: &quot;forward&quot;,
+          &quot;description&quot;: &quot;Forward HTTP traffic to remote servers&quot;,
+          &quot;config&quot;: {
+            &quot;url&quot;: &quot;http:\/\/httpbin.org&quot;
+          }
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h4 id="delete-instance">Delete instance</h4>
+
+<pre><code>DELETE /instances/{id}
+</code></pre>
+
+<h4 id="response-8">Response</h4>
+
+<pre><code>HTTP 204 No Content
+</code></pre>
 
     
       <h1 id="authors">Authors</h1>
