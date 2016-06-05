@@ -326,7 +326,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>GET /
 </code></pre>
 
-<h4 id="response">Response</h4>
+<h5 id="response">Response</h5>
 
 <pre><code>HTTP 200 OK
 </code></pre>
@@ -370,29 +370,9 @@ Responses and payloads as designed to render and read JSON only data structures.
 ]
 </code></pre>
 
-<h4 id="list-plugins-1">List plugins</h4>
-
-<pre><code>GET /plugins
-</code></pre>
-
-<h5 id="response-2">Response</h5>
-
-<pre><code class="language-json">[
-  {
-    &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
-    &quot;name&quot;: &quot;auth&quot;,
-    &quot;description&quot;: &quot;Authorization and authentication protection&quot;,
-    &quot;config&quot;: {
-      &quot;scheme&quot;: &quot;Bearer&quot;,
-      &quot;token&quot;: &quot;s3cr3t&quot;
-    }
-  }
-]
-</code></pre>
-
 <h4 id="register-plugin">Register plugin</h4>
 
-<pre><code>GET /plugins/{id}
+<pre><code>POST /plugins
 </code></pre>
 
 <h5 id="request-body">Request Body</h5>
@@ -405,7 +385,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 }
 </code></pre>
 
-<h5 id="response-3">Response</h5>
+<h5 id="response-2">Response</h5>
 
 <pre><code class="language-json">{
   &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
@@ -423,7 +403,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>GET /plugins/{id}
 </code></pre>
 
-<h5 id="response-4">Response</h5>
+<h5 id="response-3">Response</h5>
 
 <pre><code class="language-json">{
   &quot;id&quot;: &quot;UGEZGfua5S3U0nDS&quot;,
@@ -441,7 +421,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>DELETE /plugins/{id}
 </code></pre>
 
-<h4 id="response-5">Response</h4>
+<h5 id="response-4">Response</h5>
 
 <pre><code>HTTP 204 No Content
 </code></pre>
@@ -453,7 +433,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>GET /instances
 </code></pre>
 
-<h4 id="response-6">Response</h4>
+<h5 id="response-5">Response</h5>
 
 <pre><code>HTTP 200 OK
 </code></pre>
@@ -508,7 +488,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>GET /instances/{id}
 </code></pre>
 
-<h4 id="response-7">Response</h4>
+<h5 id="response-6">Response</h5>
 
 <pre><code>HTTP 200 OK
 </code></pre>
@@ -561,7 +541,7 @@ Responses and payloads as designed to render and read JSON only data structures.
 <pre><code>DELETE /instances/{id}
 </code></pre>
 
-<h4 id="response-8">Response</h4>
+<h5 id="response-7">Response</h5>
 
 <pre><code>HTTP 204 No Content
 </code></pre>
